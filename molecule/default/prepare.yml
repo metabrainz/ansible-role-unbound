@@ -1,0 +1,9 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: Install test dependencies
+      apt:
+        name: bind9-dnsutils
+        update_cache: true
+        cache_valid_time: 600

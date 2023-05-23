@@ -1,0 +1,8 @@
+---
+- name: Restart Unbound
+  listen: restart unbound
+  service:
+    name: unbound
+    state: "{{ unbound_restart_handler_state }}"
+  when: unbound_service_enabled
+  ignore_errors: "{{ ansible_check_mode }}"

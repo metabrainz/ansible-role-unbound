@@ -1,0 +1,68 @@
+---
+- name: Install Unbound
+  apt:
+    name: unbound
+    state: "{{ unbound_package_state }}"
+    policy_rc_d: "{{ unbound_package_policy_rc_d }}"
+
+- name: Divert Unbound configuration file
+  command: >
+    dpkg-divert --quiet --local
+    --divert {{ unbound_configuration_file }}.dpkg-divert
+    --rename {{ unbound_configuration_file }}
+  args:
+    creates: "{{ unbound_configuration_file }}.dpkg-divert"
+
+- name: Install Unbound configuration
+  template:
+    src: etc/unbound/unbound.conf.j2
+    dest: "{{ unbound_configuration_file }}"
+    mode: "{{ unbound_configuration_file_mode }}"
+    owner: "{{ unbound_configuration_file_owner }}"
+    group: "{{ unbound_configuration_file_group }}"
+    validate: unbound-checkconf %s
+  notify: restart unbound
+  vars:
+    _unbound_server_configuration: >-
+      {{
+        unbound_server_configuration | combine(
+          unbound_group_server_configuration,
+          unbound_host_server_configuration,
+          list_merge=unbound_configuration_list_merge,
+          recursive=unbound_configuration_recursive_merge
+        )
+      }}
+    _unbound_remote_control_configuration: >-
+      {{
+        unbound_remote_control_configuration | combine(
+          unbound_group_remote_control_configuration,
+          unbound_host_remote_control_configuration,
+          list_merge=unbound_configuration_list_merge,
+          recursive=unbound_configuration_recursive_merge
+        )
+      }}
+    _unbound_stub_zone_configuration: >-
+      {{
+        unbound_stub_zone_configuration | combine(
+          unbound_group_stub_zone_configuration,
+          unbound_host_stub_zone_configuration,
+          list_merge=unbound_configuration_list_merge,
+          recursive=unbound_configuration_recursive_merge
+        )
+      }}
+    _unbound_forward_zone_configuration: >-
+      {{
+        unbound_forward_zone_configuration | combine(
+          unbound_group_forward_zone_configuration,
+          unbound_host_forward_zone_configuration,
+          list_merge=unbound_configuration_list_merge,
+          recursive=unbound_configuration_recursive_merge
+        )
+      }}
+
+- name: Enable and start Unbound service
+  service:
+    name: unbound
+    state: "{{ unbound_service_state }}"
+    enabled: "{{ unbound_service_enabled }}"
+  ignore_errors: "{{ ansible_check_mode }}"

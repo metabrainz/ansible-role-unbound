@@ -1,0 +1,11 @@
+{% macro unbound_format_option(option, value) -%}
+{% if value is bool %}
+{{ option }}: {{ value | ternary('yes', 'no') }}
+{% elif value is list and value %}
+{%   for v in value %}
+{{ option }}: {{ v | string }}
+{%   endfor %}
+{% else %}
+{{ option }}: "{{ value | string }}"
+{% endif %}
+{% endmacro -%}
