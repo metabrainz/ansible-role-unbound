@@ -1,0 +1,26 @@
+---
+unbound_host_server_configuration:
+  num-threads: 1
+  outgoing-num-tcp: 1
+  incoming-num-tcp: 1
+  outgoing-range: 60
+  msg-buffer-size: 8192
+  msg-cache-size: 100k
+  msg-cache-slabs: 1
+  rrset-cache-size: 100k
+  rrset-cache-slabs: 1
+  infra-cache-numhosts: 200
+  infra-cache-slabs: 1
+  key-cache-size: 100k
+  key-cache-slabs: 1
+  neg-cache-size: 10k
+  num-queries-per-thread: 30
+  target-fetch-policy: "2 1 0 0 0 0"
+  harden-large-queries: true
+  harden-short-bufsize: true
+
+unbound_host_forward_zone_configuration:
+  metabrainz.org:
+    forward-addr:
+      - 127.0.1.42
+      - 127.0.42.1

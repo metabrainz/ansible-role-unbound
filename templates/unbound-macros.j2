@@ -1,0 +1,13 @@
+#jinja2: trim_blocks: True, lstrip_blocks: True
+
+{% macro unbound_format_option(option, value, indent=4) -%}
+{% if value is bool %}
+{{ option }}: {{ value | ternary('yes', 'no') }}
+{% elif value is list and value %}
+{%   for v in value %}
+{{ option }}: {{ v }}
+{%   endfor %}
+{% else %}
+{{ option }}: "{{ value }}"
+{% endif %}
+{% endmacro -%}

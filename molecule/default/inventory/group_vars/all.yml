@@ -1,0 +1,20 @@
+---
+unbound_server_configuration:
+  num-threads: 2
+  outgoing-num-tcp: 5
+  incoming-num-tcp: 5
+  outgoing-range: 100
+
+unbound_group_server_configuration:
+  interface:
+    - 127.0.0.1
+
+unbound_forward_zone_configuration:
+  ".":
+    forward-addr:
+      - 1.1.1.1
+      - 9.9.9.9
+
+unbound_group_stub_zone_configuration:
+  consul:
+    stub-addr: 127.0.0.1@8600

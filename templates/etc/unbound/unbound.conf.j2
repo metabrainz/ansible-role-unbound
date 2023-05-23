@@ -1,0 +1,43 @@
+#jinja2: trim_blocks: True, lstrip_blocks: True
+# {{ ansible_managed }}
+{% import "unbound-macros.j2" as macros with context %}
+{% if _unbound_server_configuration %}
+
+server:
+{%   for option, value in _unbound_server_configuration|dictsort -%}
+{{ macros.unbound_format_option(option, value) | indent(4, first=True) }}
+{%-   endfor %}
+{% endif %}
+{% if _unbound_remote_control_configuration %}
+
+remote-control:
+{%   for option, value in _unbound_remote_control_configuration|dictsort %}
+{{ macros.unbound_format_option(option, value) | indent(4, first=True) }}
+{%   endfor %}
+{% endif %}
+{% if _unbound_stub_zone_configuration %}
+
+{%   for name, configuration in _unbound_stub_zone_configuration|dictsort %}
+stub-zone:
+    name: {{ name }}
+{%     for option, value in configuration|dictsort -%}
+{{ macros.unbound_format_option(option, value) | indent(4, first=True) }}
+{%-    endfor %}
+{%     if not loop.last %}
+
+{%     endif %}
+{%   endfor %}
+{% endif %}
+{% if _unbound_forward_zone_configuration %}
+
+{%   for name, configuration in _unbound_forward_zone_configuration|dictsort %}
+forward-zone:
+    name: "{{ name }}"
+{%     for option, value in configuration|dictsort -%}
+{{ macros.unbound_format_option(option, value) | indent(4, first=True) }}
+{%-    endfor %}
+{%     if not loop.last %}
+
+{%     endif %}
+{%   endfor %}
+{% endif %}
