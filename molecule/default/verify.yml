@@ -50,6 +50,8 @@
               name: "metabrainz.org"
               forward-addr: 127.0.1.42
               forward-addr: 127.0.42.1
+
+          include: "/etc/unbound/unbound.conf.d/*.conf"
         dest: /etc/unbound/unbound.conf
         mode: "0644"
       register: result

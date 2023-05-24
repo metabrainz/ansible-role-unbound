@@ -11,8 +11,7 @@ unbound_configuration_file_mode: '0644'
 unbound_configuration_file_owner: root
 unbound_configuration_file_group: root
 
-unbound_server_configuration:
-  include-toplevel: "/etc/unbound/unbound.conf.d/*.conf"
+unbound_server_configuration: {}
 unbound_group_server_configuration: {}
 unbound_host_server_configuration: {}
 
@@ -27,6 +26,11 @@ unbound_host_stub_zone_configuration: {}
 unbound_forward_zone_configuration: {}
 unbound_group_forward_zone_configuration: {}
 unbound_host_forward_zone_configuration: {}
+
+unbound_configuration_includes:
+  - "/etc/unbound/unbound.conf.d/*.conf"
+unbound_group_configuration_includes: []
+unbound_host_configuration_includes: []
 
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/combine_filter.html#keyword-parameters
 unbound_configuration_list_merge: replace

@@ -40,3 +40,9 @@ forward-zone:
 {%     endif %}
 {%   endfor %}
 {% endif %}
+{% if _unbound_configuration_includes %}
+
+{%   for include in _unbound_configuration_includes -%}
+{{ macros.unbound_format_option("include", include) }}
+{%-   endfor %}
+{% endif %}

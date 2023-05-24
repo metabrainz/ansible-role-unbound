@@ -59,6 +59,14 @@
           recursive=unbound_configuration_recursive_merge
         )
       }}
+    _unbound_configuration_includes: >-
+      {{
+        [
+          unbound_configuration_includes,
+          unbound_group_configuration_includes,
+          unbound_host_configuration_includes
+        ] | flatten
+      }}
 
 - name: Enable and start Unbound service
   service:
