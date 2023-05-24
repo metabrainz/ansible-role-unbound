@@ -13,6 +13,17 @@
   args:
     creates: "{{ unbound_configuration_file }}.dpkg-divert"
 
+- name: Install DNSSEC root trust anchor
+  copy:
+    src: "{{ unbound_dnssec_trust_anchor_src }}"
+    dest: "{{ unbound_dnssec_trust_anchor_dest }}"
+    owner: "{{ unbound_user }}"
+    group: "{{ unbound_group }}"
+    mode: "0644"
+    force: false
+    remote_src: true
+  ignore_errors: "{{ ansible_check_mode }}"
+
 - name: Install Unbound configuration
   template:
     src: etc/unbound/unbound.conf.j2
