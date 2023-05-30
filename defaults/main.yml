@@ -32,6 +32,24 @@ unbound_configuration_includes:
 unbound_group_configuration_includes: []
 unbound_host_configuration_includes: []
 
+unbound_systemd_resolved_restart_handler_state: restarted
+
+unbound_systemd_resolved_configuration_file: "{{ unbound_systemd_resolved_configuration_directory }}/80ansible-unbound.conf"
+unbound_systemd_resolved_configuration_mode: '0644'
+#unbound_systemd_resolved_configuration_file_owner: root
+#unbound_systemd_resolved_configuration_file_group: root
+
+#unbound_systemd_resolved_configuration:
+#  Resolve:
+#    DNS:
+#      - 127.0.0.1
+#      - '::1'
+unbound_systemd_resolved_configuration: {}
+unbound_group_systemd_resolved_configuration: {}
+unbound_host_systemd_resolved_configuration: {}
+
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/combine_filter.html#keyword-parameters
 unbound_configuration_list_merge: replace
 unbound_configuration_recursive_merge: true
+unbound_systemd_resolved_configuration_list_merge: "{{ unbound_configuration_list_merge }}"
+unbound_systemd_resolved_configuration_recursive_merge: "{{ unbound_configuration_recursive_merge }}"

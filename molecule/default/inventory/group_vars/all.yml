@@ -18,3 +18,7 @@ unbound_forward_zone_configuration:
 unbound_group_stub_zone_configuration:
   consul:
     stub-addr: 127.0.0.1@8600
+
+unbound_systemd_resolved_configuration:
+  Resolve:
+    Domains: "example.com example.net"
