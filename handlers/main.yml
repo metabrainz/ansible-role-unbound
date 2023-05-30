@@ -1,4 +1,17 @@
 ---
+- name: Reload SystemD
+  listen: reload systemd
+  systemd:
+    daemon_reload: yes
+  when: ansible_service_mgr == "systemd"
+
+- name: Restart systemd-resolved
+  listen: restart systemd-resolved
+  service:
+    name: systemd-resolved
+    state: "{{ unbound_systemd_resolved_restart_handler_state }}"
+  ignore_errors: "{{ ansible_check_mode }}"
+
 - name: Restart Unbound
   listen: restart unbound
   service:

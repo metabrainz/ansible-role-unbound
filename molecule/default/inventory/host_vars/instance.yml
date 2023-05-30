@@ -24,3 +24,9 @@ unbound_host_forward_zone_configuration:
     forward-addr:
       - 127.0.1.42
       - 127.0.42.1
+
+unbound_host_systemd_resolved_configuration:
+  Resolve:
+    DNS:
+      - 127.0.0.1
+      - '::1'

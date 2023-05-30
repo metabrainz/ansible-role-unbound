@@ -79,6 +79,35 @@
         ] | flatten
       }}
 
+- name: Create systemd-resolved configuration directory
+  file:
+    path: "{{ unbound_systemd_resolved_configuration_directory }}"
+    owner: root
+    group: root
+    mode: "0755"
+    state: directory
+
+- name: Install systemd-resolved configuration
+  template:
+    src: etc/systemd/resolved.conf.d/80ansible-unbound.conf.j2
+    dest: "{{ unbound_systemd_resolved_configuration_file }}"
+    mode: "{{ unbound_systemd_resolved_configuration_mode }}"
+    owner: "{{ unbound_systemd_resolved_configuration_file_owner | d(omit) }}"
+    group: "{{ unbound_systemd_resolved_configuration_file_group | d(omit) }}"
+  notify:
+    - reload systemd
+    - restart systemd-resolved
+  vars:
+    _unbound_systemd_resolved_configuration: >-
+      {{
+        unbound_systemd_resolved_configuration | combine(
+          unbound_group_systemd_resolved_configuration,
+          unbound_host_systemd_resolved_configuration,
+          list_merge=unbound_systemd_resolved_configuration_list_merge,
+          recursive=unbound_systemd_resolved_configuration_recursive_merge
+        )
+      }}
+
 - name: Enable and start Unbound service
   service:
     name: unbound

@@ -2,5 +2,6 @@
 unbound_user: unbound
 unbound_group: unbound
 unbound_configuration_file: /etc/unbound/unbound.conf
+unbound_systemd_resolved_configuration_directory: /etc/systemd/resolved.conf.d
 unbound_dnssec_trust_anchor_src: /usr/share/dns/root.key
 unbound_dnssec_trust_anchor_dest: /var/lib/unbound/root.key
